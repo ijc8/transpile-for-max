@@ -37,15 +37,34 @@ function euclid(hits, length, offset = 0) {
     return beats
 }
 
+const pitches = [36, 48, 60, 67, 69, 72, 77, 82]
+
 async function buildup() {
     self.running = true
-    const beats = euclid(3, 8)
-    for (let i = 0; self.running; i++) {
-        if (beats[i % beats.length]) {
-            play(60, 100, Math.random() * 1000)
+
+    const rhythms = {}
+    for (const [index, pitch] of pitches.entries()) {
+        rhythms[pitch] = euclid(index + 1, 8)
+        for (let i = 0; i < 16; i++) {
+            for (const [pitch, rhythm] of Object.entries(rhythms)) {
+                console.log(i, pitch)
+                if (rhythm[i % rhythm.length]) {
+                    console.log("Play", pitch)
+                    play(+pitch, 100, 200)
+                }
+            }
+            await sleep(117)
         }
-        await sleep(117)
     }
+
+    // const beats = euclid(3, 8)
+    // for (let i = 0; self.running; i++) {
+    //     if (beats[i % beats.length]) {
+    //         play(60, 100, 200)
+    //         play(64, 100, 200)
+    //     }
+    //     await sleep(117)
+    // }
 }
 
 self.buildup = buildup
