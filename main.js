@@ -104,7 +104,7 @@ async function playPiece() {
     }
 }
 
-// Max/MSP entry point.
+// Entry point for Max.
 self.msg_int = (x) => {
     if (x > 0) {
         self.running = true
